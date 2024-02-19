@@ -1,0 +1,8 @@
+POST http://localhost:3001/api/login
+ 
+Content-Type: Application/json
+
+{
+    "username": "deepc",
+    "password": "deepc"
+} 

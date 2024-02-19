@@ -18,10 +18,22 @@ const errorHandler = (error, request, response, next) => {
         res.status(400).send({ error: 'malformated id' })
     } else if (error.name === 'ValidationError') {
         return res.status(400).json({ error: error.message })
+    } else if (error.name === 'MongoServerError' && error.message.includes('E11000 duplicate key error')) {
+        return response.status(400).json({ error: 'expected `username` to be unique' })
     }
-
     next(error)
 }
 
+const tokenExtractor = (req, res, next) => {
+    const authorization = req.get('authorization')
+    if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
+        req.token = authorization.substring(7)
+    } else {
+        req.token = null
+    }
 
-module.exports = { requestLogger, unknownEndpoint, errorHandler }
+    next()
+}
+
+
+module.exports = { requestLogger, unknownEndpoint, errorHandler, tokenExtractor }

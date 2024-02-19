@@ -1,24 +1,27 @@
 const mongoose = require('mongoose')
 
-mongoose.set('strictQuery', false)
-
-const url = process.env.MONGODB_URI
-
-console.log('connecting to', url);
-
-mongoose.connect(url)
-    .then(result => {
-        console.log('connected to MongoDB');
-    })
-    .catch((error) => {
-        console.log('error connecting to MongoDB:', error.message);
-    })
-
 const habitSchema = new mongoose.Schema({
-    content: {
+    title: {
         type: String,
         required: true,
-    }
+    },
+    description: String,
+    category: String,
+    frequency: Number,
+    target: Number,
+    startDate: Date,
+    endDate: Date,
+    reminders: Boolean,
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    },
+    logs: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Logs'
+        }    
+    ]
 })
 
 habitSchema.set('toJSON', {
