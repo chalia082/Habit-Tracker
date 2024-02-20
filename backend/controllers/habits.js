@@ -12,14 +12,28 @@ habitsRouter.get('/:id', async(req, res) => {
     const habit = await Habit.findById(req.params.id)
     res.json(habit)
 })
+const getTokenFrom = request => {
+    const authorization = request.get('authorization')
+    console.log(authorization);
+    if( authorization && authorization.startsWith('Bearer')) {
+        console.log(authorization.replace('Bearer ', ''));
+        return authorization.replace('Bearer ', '')
+    }
+    return null
+}
 
-habitsRouter.post('/', async(req, res) => {
-    const body = req.body
+habitsRouter.post('/', async(request, response) => {
+    const body = request.body
 
-    const decodedToken = jwt.verify(req.token, process.env.SECRET)
+    // const decodedToken = jwt.verify(request.token, process.env.SECRET)
+    const decodedToken = jwt.verify(getTokenFrom(request), process.env.SECRET)
+    
+    if (!decodedToken.id) {
+        return response.status(401).json({ error: 'token invalid' })
+    }
 
     if (!body.content) {
-        return res.status(400).json({ error: 'missing content' })
+        return response.status(401).json({ error: 'missing content' })
     }
 
     const user = await User.findById(decodedToken.id)
@@ -40,7 +54,7 @@ habitsRouter.post('/', async(req, res) => {
     user.habits = user.habits.concat(savedHabit)
     await user.save()
 
-    res.status(201).json(savedHabit)
+    response.status(201).json(savedHabit)
 })
 
 habitsRouter.put('/:id', async(req, res) => {
@@ -54,5 +68,9 @@ habitsRouter.put('/:id', async(req, res) => {
     res.status(201).json(updatedHabit)
 })
 
+habitsRouter.delete('/:id', async (req, res) => {
+    await Habit.findByIdAndDelete(req.params.id)
+    res.status(204).end()
+})
 
 module.exports = habitsRouter
