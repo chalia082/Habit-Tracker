@@ -11,7 +11,7 @@ const mongoose = require('mongoose')
 
 const url = process.env.MONGODB_URI
 
-mongoose.set('strictQuery', false)
+// mongoose.set('strictQuery', false)
 
 console.log('connecting to', url);
 
@@ -33,7 +33,8 @@ app.use('/api/habits', habitsRouter)
 app.use('/api/users', usersRouter)
 app.use('/api/login', loginRouter)
 
-app.use(middleware.unknownEndpoint)
 app.use(middleware.errorHandler)
+app.use(middleware.unknownEndpoint)
+
 
 module.exports = app

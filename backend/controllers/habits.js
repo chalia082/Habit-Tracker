@@ -25,18 +25,25 @@ const getTokenFrom = request => {
 habitsRouter.post('/', async(request, response) => {
     const body = request.body
 
-    // const decodedToken = jwt.verify(request.token, process.env.SECRET)
-    const decodedToken = jwt.verify(getTokenFrom(request), process.env.SECRET)
+    console.log(body);
+
+    const decodedToken = jwt.verify(request.token, process.env.SECRET)
+    // const decodedToken = jwt.verify(getTokenFrom(request), process.env.SECRET)
+
+    // console.log('decodedToken', decodedToken);
     
-    if (!decodedToken.id) {
+    if (!decodedToken) {
         return response.status(401).json({ error: 'token invalid' })
     }
 
-    if (!body.content) {
+    if (!body.title) {
         return response.status(401).json({ error: 'missing content' })
     }
 
     const user = await User.findById(decodedToken.id)
+    // const user = await User.findById(body.user)
+    
+    // console.log(user);
 
     const habit = new Habit({
         title: body.title,
@@ -47,7 +54,7 @@ habitsRouter.post('/', async(request, response) => {
         startDate: body.startDate,
         endDate: body.endDate,
         reminders: body.reminders,
-        user : user.id
+        user : user._id
     })
 
     const savedHabit = await habit.save()
