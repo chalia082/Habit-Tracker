@@ -25,10 +25,10 @@ const getTokenFrom = request => {
 habitsRouter.post('/', async(request, response) => {
     const body = request.body
 
-    console.log(body);
+    // console.log(body);
 
-    const decodedToken = jwt.verify(request.token, process.env.SECRET)
-    // const decodedToken = jwt.verify(getTokenFrom(request), process.env.SECRET)
+    // const decodedToken = jwt.verify(request.token, process.env.SECRET)
+    const decodedToken = jwt.verify(getTokenFrom(request), process.env.SECRET)
 
     // console.log('decodedToken', decodedToken);
     
@@ -54,7 +54,7 @@ habitsRouter.post('/', async(request, response) => {
         startDate: body.startDate,
         endDate: body.endDate,
         reminders: body.reminders,
-        user : user._id
+        user : user.id
     })
 
     const savedHabit = await habit.save()
