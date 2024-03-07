@@ -12,7 +12,6 @@ const Habit = ({habit}) => {
 
 const HabitList = () => {
     const habits = useSelector(state => state.habits)
-    console.log(habits || 'cannot access');
     return (
         <div>
             {habits.map(habit => 
