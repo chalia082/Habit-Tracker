@@ -4,6 +4,7 @@ import HabitList from "./controllers/HabitList"
 import About from "./controllers/About"
 import LoginForm from './controllers/LoginForm'
 import { initialHabits } from "./reducers/habitReducer"; 
+import { getUsers } from './reducers/userReducer'
 import { useDispatch, useSelector } from "react-redux";
 import styled from 'styled-components'
 import {
@@ -36,6 +37,10 @@ const App = () => {
 
   useEffect(() => {
     dispatch(initialHabits())
+  }, [])
+
+  useEffect(() => {
+    dispatch(getUsers())
   }, [])
 
   useEffect(() => {
