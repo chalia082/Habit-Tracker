@@ -32,7 +32,9 @@ const Footer = styled.div`
 
 
 const App = () => {
-  const [user, setUser] = useState(null)
+  // const [user, setUser] = useState(null)
+  const user = useSelector(state => state.users.currentUser)
+  console.log('urre aa rea bai?');
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -47,17 +49,16 @@ const App = () => {
     const loggedUserJSON = window.localStorage.getItem('loggedHabitAppUser')
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
-      setUser(user)
+      // setUser(user)
       habitService.setToken(user.token)
     }
   }, [])
 
-  const users = useSelector(state => state.users)
 
   const handleLogout = async (event) => {
     event.preventDefault()
     window.localStorage.removeItem('loggedHabitAppUser')
-    setUser(null)
+    // setUser(null)
   }
 
   const padding = {

@@ -3,6 +3,8 @@ import loginService from '../services/login'
 import habitService from '../services/habits'
 import { TextField, Button } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
+import { setCurrentUser } from '../reducers/userReducer'
+import { useDispatch } from 'react-redux'
 
 const Login = ({ 
     username, 
@@ -56,6 +58,7 @@ const LoginForm = () => {
     const [password, setPassword] = useState('')
     const [user, setUser] = useState(null)
     const navigate = useNavigate()
+    const dispatch = useDispatch()
 
     const handleLogin = async (event) => {
         event.preventDefault()
@@ -73,7 +76,9 @@ const LoginForm = () => {
             setUser(user)
             setUsername('')
             setPassword('') 
-            navigate('/habits')      
+            dispatch(setCurrentUser(user)) 
+            console.log('reaching here');  
+            navigate('/habits')  
         } catch (exception) {
             console.error('error', exception.message)
         }
