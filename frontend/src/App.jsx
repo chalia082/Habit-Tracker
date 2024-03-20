@@ -34,7 +34,6 @@ const Footer = styled.div`
 const App = () => {
   // const [user, setUser] = useState(null)
   const user = useSelector(state => state.users.currentUser)
-  console.log('urre aa rea bai?');
   const dispatch = useDispatch()
 
   useEffect(() => {

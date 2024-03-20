@@ -7,16 +7,26 @@ const habitSlice = createSlice({
     reducers: {
         setHabits(state, action) {
             return action.payload
+        },
+        appendHabit(state, action) {
+            state.push(action.payload)
         }
     }
 })
 
-export const { setHabits } = habitSlice.actions
+export const { setHabits, appendHabit } = habitSlice.actions
 
 export const initialHabits = () => {
     return async dispatch => {
         const habits = await habitService.getAll()
         dispatch(setHabits(habits))
+    }
+}
+
+export const createHabit = (newHabit) => {
+    return async dispatch => {
+        const habit = await habitService.create(newHabit)
+        dispatch(appendHabit(habit ))
     }
 }
 
