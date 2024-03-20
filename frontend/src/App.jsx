@@ -3,6 +3,7 @@ import habitService from './services/habits'
 import HabitList from "./controllers/HabitList"
 import About from "./controllers/About"
 import LoginForm from './controllers/LoginForm'
+import SignupForm from './controllers/SignupForm'
 import { initialHabits } from "./reducers/habitReducer"; 
 import { getUsers } from './reducers/userReducer'
 import { useDispatch, useSelector } from "react-redux";
@@ -74,12 +75,14 @@ const App = () => {
           : <Link style={padding} to='/login' >Login</Link>
         }
         {user && <Button style={padding} size="small" color="secondary" variant="contained" onClick={handleLogout} >logout</Button>}
+        <Link style={padding} to='/signup' >Sign Up</Link>
       </Navigation>
 
       <Routes>
         <Route path="/" element={ <About /> } />
         <Route path="/habits" element={ user ? <HabitList /> : <Navigate replace to='/login' /> } />
         <Route path="/login" element={ <LoginForm /> } />
+        <Route path="/signup" element={ <SignupForm /> } />
       </Routes>
       
 

@@ -29,7 +29,7 @@ const HabitForm = ({ createHabit }) => {
             endDate: newendDate,
             reminders: newreminders || false,
             id: habits.length + 1
-        })
+        }) 
         setNewTitle('')
         setNewDescription('')
         setNewCategory('')
